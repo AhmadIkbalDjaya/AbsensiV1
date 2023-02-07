@@ -15,12 +15,6 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        // return response()->json([
-        //     "responseCode" => "200",
-        //     "responseStatus" => "OK",
-        //     "responseMassage" => "Success",
-        //     "data" => Employee::all(),
-        // ], 200);
         return response()->base_response(Employee::all());
     }
 
@@ -50,7 +44,11 @@ class EmployeeController extends Controller
             "position_id" => "required|exists:positions,id",
             "shift_id" => "required|exists:shifts,id",
             "location_id" => "required|exists:locations,id",
+            "photo" => "image|mimes:jpeg,png,jpg",
         ]);
+        if($request->file('photo')){
+            $validated["photo"] = $request->file("photo")->store('employess-photo');
+        }
         $validated["password"] = Hash::make($validated["password"]);
         $employee = Employee::create($validated);
         return response()->base_response($employee, 200, "OK", "Data Berhasil Ditambahkan");
@@ -95,9 +93,12 @@ class EmployeeController extends Controller
             "position_id" => "required|exists:positions,id",
             "shift_id" => "required|exists:shifts,id",
             "location_id" => "required|exists:locations,id",
+            "photo" => "image|mimes:jpeg,png,jpg",
         ]);
+        if($request->file('photo')){
+            $validated["photo"] = $request->file("photo")->store('employess-photo');
+        }
         if($request['password']){
-            // dd('ada');
             $validated["password"] = Hash::make($request["password"]);
         }
         $employee->update($validated);

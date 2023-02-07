@@ -14,26 +14,6 @@ class LocationController extends Controller
      */
     public function index()
     {
-        // return response()->json([
-        //     'status' => 'success',
-        //     'message' => 'Berhasil disimpan'
-        // ], 201);
-
-        // return response()->created([
-        //     'status' => 'success',
-        //     'message' => 'Berhasil disimpan'
-        // ]);
-        
-        // $data = "sdad";
-        // return response()->success($data, 200);
-
-        // return response()->json([
-        //     "responseCode" => "200",
-        //     "responseStatus" => "OK",
-        //     "responseMassage" => "Success",
-        //     "data" => Location::all(),
-        // ], 200);
-
         return response()->base_response(Location::all());
     }
 
@@ -71,13 +51,6 @@ class LocationController extends Controller
      */
     public function show(Location $location)
     {
-        // return response()->json([
-        //     "responseCode" => "200",
-        //     "responseStatus" => "OK",
-        //     "responseMassage" => "Success",
-        //     "data" => $location,
-        // ], 200);
-
         return response()->base_response($location);
     }
 

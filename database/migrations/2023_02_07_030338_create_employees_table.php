@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId('position_id');
             $table->foreignId('shift_id');
             $table->foreignId('location_id');
-            $table->string('photo')->nullable();
+            $table->string('photo')->nullable()->default('employess-photo/default.jpeg');
             $table->timestamps();
         });
     }

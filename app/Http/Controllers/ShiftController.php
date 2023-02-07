@@ -12,28 +12,10 @@ class ShiftController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function tes($data, $responCode = 200, $responStatus = "OK", $responMassage = "Success")
-    // {
-    //     return response()->json([
-    //         "responseCode" => $responCode,
-    //         "responseStatus" => $responStatus,
-    //         "responseMassage" => $responMassage,
-    //         "data" => $data,
-    //     ], $responCode);
-    // }
 
     public function index()
     {
         return response()->base_response(Shift::all(), 200, "OK", "Success");
-
-        // return $this->tes(Shift::all(), "201", "OK", "Berhasilll");
-
-        // return response()->json([
-        //     "responseCode" => "200",
-        //     "responseStatus" => "OK",
-        //     "responseMassage" => "Success",
-        //     "data" => Shift::all(),
-        // ], 200);
     }
 
     /**

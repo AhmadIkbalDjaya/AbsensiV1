@@ -14,12 +14,6 @@ class PositionController extends Controller
      */
     public function index()
     {
-        // return response()->json([
-        //     "responseCode" => "200",
-        //     "responseStatus" => "OK",
-        //     "responseMassage" => "Success",
-        //     "data" => Position::all(),
-        // ], 200);
         return response()->base_response(Position::all());
     }
 
@@ -59,12 +53,6 @@ class PositionController extends Controller
     public function show(Position $position)
     {
         return response()->base_response($position);
-        // return response()->json([
-        //     "responseCode" => "200",
-        //     "responseStatus" => "OK",
-        //     "responseMassage" => "Success",
-        //     "data" => $position,
-        // ], 200);
     }
 
     /**
