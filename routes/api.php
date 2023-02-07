@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ShiftController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\PositionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+Route::resource('/location', LocationController::class);
+Route::resource('/position', PositionController::class);
+Route::resource('/shift', ShiftController::class);
+Route::resource('/employee', EmployeeController::class);
