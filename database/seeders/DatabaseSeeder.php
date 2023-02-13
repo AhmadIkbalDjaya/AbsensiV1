@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use App\Models\Shift;
 use App\Models\Employee;
 use App\Models\Location;
@@ -18,6 +19,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        User::create([
+            "name" => "admin",
+            "email" => "admin@gmail.com",
+            "username" => "admin",
+            "password" => bcrypt('admin123'),
+        ]);
         Employee::create([
             "nik" => "123",
             "name" => "sukri",
