@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\MasterData;
 
+use App\Http\Controllers\Controller;
 use App\Models\Shift;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class ShiftController extends Controller
 
     public function index()
     {
-        return response()->base_response(Shift::all(), 200, "OK", "Success");
+        $data = Shift::withCount(['employee'])->get();
+        return response()->base_response($data, 200, "OK", "Success");
     }
 
     /**
@@ -53,7 +55,8 @@ class ShiftController extends Controller
      */
     public function show(Shift $shift)
     {
-        return response()->base_response($shift);
+        $data = Shift::where('id', $shift->id)->withCount('employee')->get();
+        return response()->base_response($data);
     }
 
     /**
@@ -64,7 +67,7 @@ class ShiftController extends Controller
      */
     public function edit(Shift $shift)
     {
-        //
+        return response()->base_response($shift);
     }
 
     /**
@@ -93,6 +96,10 @@ class ShiftController extends Controller
      */
     public function destroy(Shift $shift)
     {
+        $employee_count = Shift::where('id', $shift->id)->withCount('employee')->pluck('employee_count')->first();
+        if($employee_count != 0){
+            return response()->base_response('', 400, 'NOT OK', 'Shift Digunakan, Data tidak dapat dihapus');
+        }
         $shift->delete();
         return response()->base_response("", 200, "OK", "Data Berhasil Di Hapus");
     }

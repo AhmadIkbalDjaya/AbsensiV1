@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\MasterData;
 
+use App\Http\Controllers\Controller;
 use App\Models\Location;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class LocationController extends Controller
      */
     public function index()
     {
-        return response()->base_response(Location::all());
+        $data = Location::withCount(['employee'])->get();
+        return response()->base_response($data);
     }
 
     /**
@@ -51,7 +53,8 @@ class LocationController extends Controller
      */
     public function show(Location $location)
     {
-        return response()->base_response($location);
+        $data = Location::where('id', $location->id)->withCount('employee')->get();
+        return response()->base_response($data);
     }
 
     /**
@@ -62,7 +65,7 @@ class LocationController extends Controller
      */
     public function edit(Location $location)
     {
-        //
+        return response()->base_response($location);
     }
 
     /**
@@ -90,6 +93,10 @@ class LocationController extends Controller
      */
     public function destroy(Location $location)
     {
+        $employee_count = Location::where('id', $location->id)->withCount('employee')->pluck('employee_count')->first();
+        if($employee_count != 0){
+            return response()->base_response('', 400, 'Not OK', 'Lokasi Digunakan, Data tidak dapat dihapus');
+        }
         $location->delete();
         return response()->base_response("", 200, "OK", "Data Berhasil Di Hapus");
     }

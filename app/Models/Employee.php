@@ -9,4 +9,17 @@ class Employee extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function position() {
+        return $this->belongsTo(Position::class);
+    }
+
+    public function location() {
+        return $this->belongsTo(Location::class);
+    }
+
+    public function shift () {
+        return $this->belongsTo(Shift::class);
+    }
+
 }

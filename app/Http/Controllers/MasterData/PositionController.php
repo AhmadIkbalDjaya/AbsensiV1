@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\MasterData;
 
+use App\Http\Controllers\Controller;
 use App\Models\Position;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class PositionController extends Controller
      */
     public function index()
     {
-        return response()->base_response(Position::all());
+        $data = Position::withCount(['employee'])->get();
+        return response()->base_response($data);
     }
 
     /**
@@ -52,7 +54,9 @@ class PositionController extends Controller
      */
     public function show(Position $position)
     {
-        return response()->base_response($position);
+        $data = Position::where("id", $position->id)->withCount('employee')->get();
+        return response()->base_response($data);
+        // return response()->base_response($position);
     }
 
     /**
@@ -63,7 +67,7 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
-        //
+        return response()->base_response($position);
     }
 
     /**
@@ -90,6 +94,10 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
+        $employee_count = Position::where('id', $position->id)->withCount('employee')->pluck('employee_count')->first();
+        if($employee_count != 0){
+            return response()->base_response('', 400, 'NOt OK', 'Jabatan Digunakan, Data tidak dapat dihapus');
+        }
         $position->delete();
         return response()->base_response("", 200, "OK", "Data Berhasil Dihapus");
     }

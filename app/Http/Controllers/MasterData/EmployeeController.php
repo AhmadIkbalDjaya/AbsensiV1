@@ -1,10 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\MasterData;
 
+use App\Models\Shift;
 use App\Models\Employee;
+use App\Models\Location;
+use App\Models\Position;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class EmployeeController extends Controller
 {
@@ -15,7 +20,12 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return response()->base_response(Employee::all());
+        $data = Employee::with([
+                "position:id,position_name", 
+                "location:id,name",
+                "shift:id,shift_name",
+                ])->get();
+        return response()->base_response($data);
     }
 
     /**
@@ -25,7 +35,13 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            "position" => Position::select('id', 'position_name')->get(),
+            "shift" => Shift::select('id', 'shift_name')->get(),
+            "location" => Location::select('id', 'name', 'address')->get(),
+        ];
+        return response()->base_response($data);
+        dd($data);
     }
 
     /**
@@ -62,7 +78,12 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        return response()->base_response($employee);
+        $data = $employee->loadMissing([
+                "position:id,position_name", 
+                "location:id,name",
+                "shift:id,shift_name",
+        ]);
+        return response()->base_response($data);
     }
 
     /**
@@ -73,7 +94,13 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        $data = [
+            "employee" => $employee,
+            "position" => Position::select('id', 'position_name')->get(),
+            "shift" => Shift::select('id', 'shift_name')->get(),
+            "location" => Location::select('id', 'name', 'address')->get(),
+        ];
+        return response()->base_response($data);
     }
 
     /**
@@ -95,9 +122,14 @@ class EmployeeController extends Controller
             "location_id" => "required|exists:locations,id",
             "photo" => "image|mimes:jpeg,png,jpg",
         ]);
+
         if($request->file('photo')){
+            if($request->oldPhoto && $request->oldPhoto != "employess-photo/default.jpeg"){
+                Storage::delete($request->oldPhoto);
+            }
             $validated["photo"] = $request->file("photo")->store('employess-photo');
         }
+        
         if($request['password']){
             $validated["password"] = Hash::make($request["password"]);
         }

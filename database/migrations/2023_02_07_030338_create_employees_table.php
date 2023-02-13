@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Shift;
+use App\Models\Location;
+use App\Models\Position;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -19,9 +22,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->foreignId('position_id');
-            $table->foreignId('shift_id');
-            $table->foreignId('location_id');
+            $table->foreignIdFor(Position::class);
+            $table->foreignIdFor(Shift::class);
+            $table->foreignIdFor(Location::class);
             $table->string('photo')->nullable()->default('employess-photo/default.jpeg');
             $table->timestamps();
         });
