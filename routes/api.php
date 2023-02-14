@@ -19,10 +19,12 @@ use App\Http\Controllers\MasterData\PositionController;
 |
 */
 Route::middleware(['auth:sanctum'])->group(function () {
-  Route::resource('/location', LocationController::class);
-  Route::resource('/position', PositionController::class);
-  Route::resource('/shift', ShiftController::class);
-  Route::resource('/employee', EmployeeController::class);
+  Route::middleware(['admin'])->group(function () {
+    Route::resource('/employee', EmployeeController::class);
+    Route::resource('/location', LocationController::class);
+    Route::resource('/shift', ShiftController::class);
+    Route::resource('/position', PositionController::class);
+  });
   Route::get('/logout', [AuthenticationController::class, 'logout']);
 });
 
