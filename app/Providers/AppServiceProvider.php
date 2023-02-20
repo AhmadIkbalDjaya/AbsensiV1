@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
                 "responseStatus" => $responseStatus,
                 "responseMassage" => $responseMassage,
                 "data" => $data,
-            ], 200);
+            ], $responseCode);
         });
     }
 }

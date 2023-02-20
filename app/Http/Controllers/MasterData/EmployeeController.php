@@ -41,7 +41,6 @@ class EmployeeController extends Controller
             "location" => Location::select('id', 'name', 'address')->get(),
         ];
         return response()->base_response($data);
-        dd($data);
     }
 
     /**
@@ -67,7 +66,7 @@ class EmployeeController extends Controller
         }
         $validated["password"] = Hash::make($validated["password"]);
         $employee = Employee::create($validated);
-        return response()->base_response($employee, 200, "OK", "Data Berhasil Ditambahkan");
+        return response()->base_response($employee, 201, "Created", "successfully saved data");
     }
 
     /**

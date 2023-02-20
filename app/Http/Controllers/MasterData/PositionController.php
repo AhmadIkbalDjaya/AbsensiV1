@@ -43,7 +43,7 @@ class PositionController extends Controller
 
         $position = Position::create($validated);
 
-        return response()->base_response($position, 200, "OK", "Data Berhasil Ditambahkan");
+        return response()->base_response($position, 201, "Created", "Data Berhasil Ditambahkan");
     }
 
     /**

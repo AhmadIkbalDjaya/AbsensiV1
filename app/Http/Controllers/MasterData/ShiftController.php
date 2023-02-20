@@ -44,7 +44,7 @@ class ShiftController extends Controller
             "time_out" => "required|date_format:H:i:s|after:time_in",
         ]);
         $shift = Shift::create($validated);
-        return response()->base_response($shift, 200, "OK", "Data Berhasil Ditambahkan");
+        return response()->base_response($shift, 201, "Created", "Data Berhasil Ditambahkan");
     }
 
     /**

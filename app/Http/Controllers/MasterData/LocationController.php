@@ -42,7 +42,7 @@ class LocationController extends Controller
             "address" => "required",
         ]);
         $location = Location::create($validated);
-        return response()->base_response($location, 200, "OK", "Data Berhasil Ditambahkan");
+        return response()->base_response($location, 201, "Created", "Data Berhasil Ditambahkan");
     }
 
     /**
