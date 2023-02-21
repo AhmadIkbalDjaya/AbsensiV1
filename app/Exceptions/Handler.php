@@ -4,9 +4,21 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return response()->json([
+            // 'status' => 'error',
+            // 'message' => 'The given data was invalid.',
+            "responseCode" => 422,
+            "responseStatus" => "Unprocessable Entity",
+            "responseMassage" => "The given data was invalid.",
+            'errors' => $exception->errors(),
+        ], $exception->status);
+    }
     /**
      * A list of exception types with their corresponding custom log levels.
      *

@@ -27,17 +27,25 @@ class DatabaseSeeder extends Seeder
             "level" => 1,
         ]);
         User::create([
-            "name" => "user",
-            "email" => "user@gmail.com",
-            "username" => "user",
-            "password" => bcrypt('user123'),
+            "name" => "sukri",
+            "email" => "sukri@gmail.com",
+            "username" => "sukri",
+            "password" => bcrypt('password'),
+            "level" => 2,
+        ]);
+        User::create([
+            "name" => "ikrar",
+            "email" => "ikrar@gmail.com",
+            "username" => "ikrar",
+            "password" => bcrypt('password'),
             "level" => 2,
         ]);
         Employee::create([
             "nik" => "123",
-            "name" => "sukri",
-            "email" => "sukri@gmail.com",
-            "password" => bcrypt('password'),
+            // "name" => "sukri",
+            // "email" => "sukri@gmail.com",
+            // "password" => bcrypt('password'),
+            "user_id" => "2",
             "position_id" => "3",
             "shift_id" => "1",
             "location_id" => "1",
@@ -45,9 +53,10 @@ class DatabaseSeeder extends Seeder
 
         Employee::create([
             "nik" => "456",
-            "name" => "ikrar",
-            "email" => "ikrar@gmail.com",
-            "password" => bcrypt('password'),
+            // "name" => "ikrar",
+            // "email" => "ikrar@gmail.com",
+            // "password" => bcrypt('password'),
+            "user_id" => "3",
             "position_id" => "3",
             "shift_id" => "1",
             "location_id" => "1",

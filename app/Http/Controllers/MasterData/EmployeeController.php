@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\MasterData;
 
 use App\Models\Shift;
+use App\Models\User;
 use App\Models\Employee;
 use App\Models\Location;
 use App\Models\Position;
@@ -21,6 +22,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $data = Employee::with([
+                "user:id,name,email",
                 "position:id,position_name", 
                 "location:id,name",
                 "shift:id,shift_name",
@@ -54,7 +56,7 @@ class EmployeeController extends Controller
         $validated = $request->validate([
             "nik" => "required|max:255|unique:employees",
             "name" => "required|max:255",
-            "email" => "required|email|max:255|unique:employees",
+            "email" => "required|email|max:255|unique:users",
             "password" => "required|min:8|max:255",
             "position_id" => "required|exists:positions,id",
             "shift_id" => "required|exists:shifts,id",
@@ -64,9 +66,29 @@ class EmployeeController extends Controller
         if($request->file('photo')){
             $validated["photo"] = $request->file("photo")->store('employess-photo');
         }
+        else{
+            $validated["photo"] = "employess-photo/default.jpeg";
+        }
         $validated["password"] = Hash::make($validated["password"]);
-        $employee = Employee::create($validated);
-        return response()->base_response($employee, 201, "Created", "successfully saved data");
+        $user = [
+            'name' => $validated["name"],
+            'username' => $validated["name"],
+            'email' => $validated["email"],
+            'password' => $validated["password"],
+            'level' => "2",
+        ];
+        $user = User::create($user);
+        $employee = [
+            "nik" => $validated["nik"],
+            "user_id" => $user->id,
+            "position_id" => $validated["position_id"],
+            "shift_id" => $validated["shift_id"],
+            "location_id" => $validated["location_id"],
+            "photo" => $validated["photo"],
+        ];
+        
+        $data = Employee::create($employee);
+        return response()->base_response($data, 201, "Created", "successfully saved data");
     }
 
     /**
@@ -78,6 +100,7 @@ class EmployeeController extends Controller
     public function show(Employee $employee)
     {
         $data = $employee->loadMissing([
+                "user:id,name,username,email",
                 "position:id,position_name", 
                 "location:id,name",
                 "shift:id,shift_name",
@@ -94,7 +117,7 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         $data = [
-            "employee" => $employee,
+            "employee" => $employee->loadMissing(['user:id,name,username,email']),
             "position" => Position::select('id', 'position_name')->get(),
             "shift" => Shift::select('id', 'shift_name')->get(),
             "location" => Location::select('id', 'name', 'address')->get(),
@@ -111,6 +134,7 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
+        // dd($employee->user->id);
         $validated = $request->validate([
             "nik" => "required|max:255|unique:employees,nik,$employee->id",
             "name" => "required|max:255",
@@ -127,12 +151,28 @@ class EmployeeController extends Controller
                 Storage::delete($request->oldPhoto);
             }
             $validated["photo"] = $request->file("photo")->store('employess-photo');
+        }else{
+            $validated["photo"] = "employess-photo/default.jpeg";
         }
         
-        if($request['password']){
-            $validated["password"] = Hash::make($request["password"]);
-        }
-        $employee->update($validated);
+        // if($request['password']){
+        //     $validated["password"] = Hash::make($request["password"]);
+        // }
+
+        $validatedEmployee = [
+            "nik" => $validated["nik"],
+            "user_id" => $employee->user->id,
+            "position_id" => $validated["position_id"],
+            "shift_id" => $validated["shift_id"],
+            "location_id" => $validated["location_id"],
+            "photo" => $validated["photo"],
+        ];
+        $validatedUser = [
+            'name' => $validated["name"],
+            'username' => $validated["name"],
+        ];
+        $employee->update($validatedEmployee);
+        User::where('id', $employee->user->id)->update($validatedUser);
         return response()->base_response($employee, 200, "OK", "Data Berhasil Di Update");
     }
 
@@ -145,6 +185,7 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
         $employee->delete();
+        User::where('id', $employee->user->id)->delete();
         return response()->base_response("", 200, "OK", "Data Berhasil Dihapus");
     }
 }
