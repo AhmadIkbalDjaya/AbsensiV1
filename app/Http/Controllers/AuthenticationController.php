@@ -19,7 +19,7 @@ class AuthenticationController extends Controller
         if(!$user || !Hash::check($request->password, $user->password)){
             return response()->base_response('', 401, "Unauthorized", "Incorrect username or password");
         }
-        $data['token'] = $user->createToken('user login')->plainTextToken;
+        $data['access_token'] = $user->createToken('user login')->plainTextToken;
         return response()->base_response($data, 200, "OK", "Login Success");
         // return $user->createToken('user login')->plainTextToken;
     }
