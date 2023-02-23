@@ -2,19 +2,31 @@
 
 namespace App\Http\Controllers\MasterData;
 
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+
 use App\Models\User;
 use App\Models\Shift;
 use App\Models\Employee;
 use App\Models\Location;
 use App\Models\Position;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
+
 use App\Http\Resources\EmployeeResource;
+use App\Http\Resources\EmployeeEditResource;
 
 class EmployeeController extends Controller
 {
+    public function updatePassword(Request $request, Employee $employee){
+        $validated = $request->validate([
+            'password' => 'required',
+        ]);
+        $validated["password"] = Hash::make($validated["password"]);
+        $user = User::where('id', $employee->user_id);
+        $user->update($validated);
+        return response()->base_response("", 200, "OK", "Password Berhasil Di Update");
+    }
     /**
      * Display a listing of the resource.
      *
@@ -125,7 +137,8 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         $data = [
-            "employee" => $employee->loadMissing(['user:id,name,username,email']),
+            // "employee" => $employee->loadMissing(['user:id,name,username,email']),
+            "employee" => new EmployeeEditResource($employee->loadMissing(['user:id,name,email'])),
             "position" => Position::select('id', 'position_name')->get(),
             "shift" => Shift::select('id', 'shift_name')->get(),
             "location" => Location::select('id', 'name', 'address')->get(),

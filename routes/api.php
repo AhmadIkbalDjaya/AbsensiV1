@@ -18,6 +18,8 @@ use App\Http\Controllers\MasterData\PositionController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/updatePassword/{employee}', [EmployeeController::class, 'updatePassword']);
+
 Route::resource('/employee', EmployeeController::class);
 Route::resource('/position', PositionController::class);
 Route::resource('/location', LocationController::class);
