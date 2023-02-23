@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\MasterData;
 
-use App\Models\Shift;
 use App\Models\User;
+use App\Models\Shift;
 use App\Models\Employee;
 use App\Models\Location;
 use App\Models\Position;
@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\EmployeeResource;
 
 class EmployeeController extends Controller
 {
@@ -21,12 +22,19 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $data = Employee::with([
-                "user:id,name,email",
-                "position:id,position_name", 
-                "location:id,name",
-                "shift:id,shift_name",
-                ])->get();
+        // $data = Employee::with([
+        //         "user:id,name,email",
+        //         "position:id,position_name", 
+        //         "location:id,name",
+        //         "shift:id,shift_name",
+        //         ])->get();
+        $employee = Employee::all();
+        $data = EmployeeResource::collection($employee->loadMissing([
+            "user:id,name,email",
+            "position:id,position_name", 
+            "location:id,name",
+            "shift:id,shift_name"
+        ]));
         return response()->base_response($data);
     }
 
