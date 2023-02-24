@@ -38,7 +38,7 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            "name" => "required",
+            "location_name" => "required",
             "address" => "required",
         ]);
         $location = Location::create($validated);
@@ -78,7 +78,7 @@ class LocationController extends Controller
     public function update(Request $request, Location $location)
     {
         $validated = $request->validate([
-            "name" => "required",
+            "location_name" => "required",
             "address" => "required",
         ]);
         $location->update($validated);

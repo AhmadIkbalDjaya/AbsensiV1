@@ -63,11 +63,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Location::create([
-            "name" => "Jakarta Selatan",
+            "location_name" => "Jakarta Selatan",
             "address" => "Jalan KP Melayu Kecil 5 no. 24, Bukit Duri, Tebet"
         ]);
         Location::create([
-            "name" => "Jakarta Timur",
+            "location_name" => "Jakarta Timur",
             "address" => "Jalan Kebaikan",
         ]);
 
