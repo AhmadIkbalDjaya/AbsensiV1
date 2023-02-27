@@ -22,7 +22,7 @@ class EmployeeResource extends JsonResource
             "email" => $this->user->email,
             "position" => $this->position->position_name,
             "shift" => $this->shift->shift_name,
-            "location" => $this->location->name,
+            "location" => $this->location->location_name,
             "created_at" => $this->created_at,
         ];
     }

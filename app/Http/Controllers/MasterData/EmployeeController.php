@@ -44,7 +44,7 @@ class EmployeeController extends Controller
         $data = EmployeeResource::collection($employee->loadMissing([
             "user:id,name,email",
             "position:id,position_name", 
-            "location:id,name",
+            "location:id,location_name",
             "shift:id,shift_name"
         ]));
         return response()->base_response($data);
@@ -60,7 +60,7 @@ class EmployeeController extends Controller
         $data = [
             "position" => Position::select('id', 'position_name')->get(),
             "shift" => Shift::select('id', 'shift_name')->get(),
-            "location" => Location::select('id', 'name', 'address')->get(),
+            "location" => Location::select('id', 'location_name', 'address')->get(),
         ];
         return response()->base_response($data);
     }
@@ -122,7 +122,7 @@ class EmployeeController extends Controller
         $data = $employee->loadMissing([
                 "user:id,name,username,email",
                 "position:id,position_name", 
-                "location:id,name",
+                "location:id,location_name",
                 "shift:id,shift_name",
         ]);
         return response()->base_response($data);
@@ -141,7 +141,7 @@ class EmployeeController extends Controller
             "employee" => new EmployeeEditResource($employee->loadMissing(['user:id,name,email'])),
             "position" => Position::select('id', 'position_name')->get(),
             "shift" => Shift::select('id', 'shift_name')->get(),
-            "location" => Location::select('id', 'name', 'address')->get(),
+            "location" => Location::select('id', 'location_name', 'address')->get(),
         ];
         return response()->base_response($data);
     }
