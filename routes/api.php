@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CutyController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\MasterData\ShiftController;
@@ -26,6 +27,9 @@ Route::resource('/employee', EmployeeController::class);
 Route::resource('/position', PositionController::class);
 Route::resource('/location', LocationController::class);
 Route::resource('/shift', ShiftController::class);
+
+Route::get('/cutyRequest', [CutyController::class, 'cutyRequest']);
+Route::post('/cutyAction/{cuty}', [CutyController::class, 'cutyAction']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::middleware(['admin'])->group(function () {

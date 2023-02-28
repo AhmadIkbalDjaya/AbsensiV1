@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Cuty;
 use App\Models\User;
 use App\Models\Shift;
 use App\Models\Employee;
@@ -92,6 +93,27 @@ class DatabaseSeeder extends Seeder
             "shift_name" => "FULL TIME",
             "time_in" => "09:00:00",
             "time_out" => "16:00:00",
+        ]);
+
+        // Cuty
+        Cuty::create([
+            "employee_id" => 1,
+            "cuty_start" => "2023-02-28",
+            "cuty_end" => "2023-03-02",
+            "date_work" => "2023-03-03",
+            "cuty_total" => "3",
+            "cuty_description" => "Tes",
+            // "cuty_status",
+        ]);
+        
+        Cuty::create([
+            "employee_id" => 2,
+            "cuty_start" => "2023-03-28",
+            "cuty_end" => "2023-04-02",
+            "date_work" => "2023-04-03",
+            "cuty_total" => "3",
+            "cuty_description" => "Tessss",
+            "cuty_status" => 1,
         ]);
 
         // \App\Models\User::factory(10)->create();
