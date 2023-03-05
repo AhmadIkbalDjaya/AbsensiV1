@@ -9,6 +9,7 @@ use App\Models\Shift;
 use App\Models\Employee;
 use App\Models\Location;
 use App\Models\Position;
+use App\Models\Presence;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -116,6 +117,40 @@ class DatabaseSeeder extends Seeder
             "cuty_status" => 1,
         ]);
 
+        // Presence
+        Presence::create([
+            "employee_id" => 1,
+            "presence_date" => "2023-03-01",
+            "time_in" => "21:48:19",
+            "time_out" => "21:48:19",
+            "picture_in" => "2023-03-01-in-1628615958-6",
+            "picture_out" => "2023-03-01-out-1628616131-6",
+            "present_id" => 1,
+            "latitude_longitude_in" => "-4.5585849,105.40680789999999",
+            "latitude_longitude_out" => "-4.5585849,105.40680789999999",
+        ]);
+        Presence::create([
+            "employee_id" => 1,
+            "presence_date" => "2023-03-02",
+            "time_in" => "21:48:19",
+            "time_out" => "21:48:19",
+            "picture_in" => "2023-03-02-in-1628615958-6",
+            "picture_out" => "2023-03-02-out-1628616131-6",
+            "present_id" => 1,
+            "latitude_longitude_in" => "-4.5585849,105.40680789999999",
+            "latitude_longitude_out" => "-4.5585849,105.40680789999999",
+        ]);
+        Presence::create([
+            "employee_id" => 2,
+            "presence_date" => "2023-03-02",
+            "time_in" => "21:48:19",
+            "time_out" => "21:48:19",
+            "picture_in" => "2023-03-02-in-1628615958-6",
+            "picture_out" => "2023-03-02-out-1628616131-6",
+            "present_id" => 1,
+            "latitude_longitude_in" => "-4.5585849,105.40680789999999",
+            "latitude_longitude_out" => "-4.5585849,105.40680789999999",
+        ]);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

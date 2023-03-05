@@ -2,8 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\CutyController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\MasterData\ShiftController;
 use App\Http\Controllers\MasterData\EmployeeController;
@@ -30,6 +32,9 @@ Route::resource('/shift', ShiftController::class);
 
 Route::get('/cutyRequest', [CutyController::class, 'cutyRequest']);
 Route::post('/cutyAction/{cuty}', [CutyController::class, 'cutyAction']);
+
+Route::get('/presence', [PresenceController::class, 'showAllPresence']);
+Route::get('/employeePresence/{employee}', [PresenceController::class, 'employeePresence']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::middleware(['admin'])->group(function () {
