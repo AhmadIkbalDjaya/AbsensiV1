@@ -16,7 +16,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $data = AdminResource::collection(User::where('level', '1')->get());
+        $data = AdminResource::collection(User::all());
         return response()->base_response($data);
     }
 
@@ -39,10 +39,10 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            "name" => "required|max:255",
             "username" => "required|unique:users|max:255",
             "email" => "required|email|unique:users|max:255",
             "password" => "required|min:8|max:255",
+            "fullname" => "required|max:255",
             "level" => "required",
         ]);
         $validated["password"] = Hash::make($validated["password"]);
@@ -82,7 +82,7 @@ class AdminController extends Controller
     public function update(Request $request, User $admin)
     {
         $validated = $request->validate([
-            "name" => "required|max:255",
+            "fullname" => "required|max:255",
             "username" => "required|max:255|unique:users,username,$admin->id",
             "email" => "required|email|unique:users,email,$admin->id|max:255",
             "password" => "",

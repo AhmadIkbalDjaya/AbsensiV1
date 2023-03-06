@@ -17,7 +17,7 @@ class PresenceController extends Controller
     public function employeePresence (Employee $employee) {
         $presence = Presence::where('employee_id', $employee->id)->get();
         $data = [
-            "name" => $employee->user->name,
+            "name" => $employee->name,
             "position" => $employee->position->position_name,
             "presence" =>  $presence,
 

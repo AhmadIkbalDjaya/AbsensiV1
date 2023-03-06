@@ -9,6 +9,10 @@ use App\Http\Resources\CutyRequestResource;
 class CutyController extends Controller
 {
     public function cutyRequest () {
+        // $data = Cuty::with([
+        //     "employee:id,name"
+        // ])->get();
+        // dd($data);
         $data = Cuty::all();
         $data = CutyRequestResource::collection($data);
         return response()->base_response($data);

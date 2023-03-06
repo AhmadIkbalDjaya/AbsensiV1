@@ -20,10 +20,10 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->string('nik')->unique();
-            // $table->string('name');
-            // $table->string('email')->unique();
-            // $table->string('password');
-            $table->foreignIdFor(User::class);
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->string('name');
+            // $table->foreignIdFor(User::class);
             $table->foreignIdFor(Position::class);
             $table->foreignIdFor(Shift::class);
             $table->foreignIdFor(Location::class);

@@ -17,8 +17,8 @@ class EmployeeEditResource extends JsonResource
         return [
             "id" => $this->id,
             "nik" => $this->nik,
-            "name" => $this->user->name,
-            "email" => $this->user->email,
+            "name" => $this->name,
+            "email" => $this->email,
             "position_id" => $this->position_id,
             "shift_id" => $this->shift_id,
             "location_id" => $this->location_id,

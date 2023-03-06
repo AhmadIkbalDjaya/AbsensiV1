@@ -22,54 +22,66 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::create([
-            "name" => "admin",
-            "email" => "admin@gmail.com",
             "username" => "admin",
+            "email" => "admin@gmail.com",
             "password" => bcrypt('admin123'),
+            "fullname" => "Administrator",
             "level" => 1,
         ]);
-        User::create([
-            "name" => "sukri",
-            "email" => "sukri@gmail.com",
-            "username" => "sukri",
-            "password" => bcrypt('password'),
-            "level" => 2,
-        ]);
-        User::create([
-            "name" => "ikrar",
-            "email" => "ikrar@gmail.com",
-            "username" => "ikrar",
-            "password" => bcrypt('password'),
-            "level" => 2,
-        ]);
-        User::create([
-            "name" => "admin2",
-            "email" => "admin2@gmail.com",
-            "username" => "admin2",
-            "password" => bcrypt('admin2123'),
-            "level" => 1,
-        ]);
-        Employee::create([
-            "nik" => "123",
-            // "name" => "sukri",
-            // "email" => "sukri@gmail.com",
-            // "password" => bcrypt('password'),
-            "user_id" => "2",
-            "position_id" => "3",
-            "shift_id" => "1",
-            "location_id" => "1",
-        ]);
+        // User::create([
+        //     "name" => "sukri",
+        //     "email" => "sukri@gmail.com",
+        //     "username" => "sukri",
+        //     "password" => bcrypt('password'),
+        //     "level" => 2,
+        // ]);
+        // User::create([
+        //     "name" => "ikrar",
+        //     "email" => "ikrar@gmail.com",
+        //     "username" => "ikrar",
+        //     "password" => bcrypt('password'),
+        //     "level" => 2,
+        // ]);
+        // User::create([
+        //     "name" => "admin2",
+        //     "email" => "admin2@gmail.com",
+        //     "username" => "admin2",
+        //     "password" => bcrypt('admin2123'),
+        //     "level" => 1,
+        // ]);
+
 
         Employee::create([
-            "nik" => "456",
-            // "name" => "ikrar",
-            // "email" => "ikrar@gmail.com",
-            // "password" => bcrypt('password'),
-            "user_id" => "3",
+            "nik" => "123",
+            "email" => "sukri@gmail.com",
+            "password" => bcrypt('password'),
+            "name" => "sukri",
+            // "user_id" => "2",
             "position_id" => "3",
             "shift_id" => "1",
             "location_id" => "1",
         ]);
+        Employee::create([
+            "nik" => "124",
+            "email" => "ikrar@gmail.com",
+            "password" => bcrypt('password'),
+            "name" => "ikrar",
+            // "user_id" => "2",
+            "position_id" => "2",
+            "shift_id" => "1",
+            "location_id" => "2",
+        ]);
+
+        // Employee::create([
+        //     "nik" => "456",
+        //     // "name" => "ikrar",
+        //     // "email" => "ikrar@gmail.com",
+        //     // "password" => bcrypt('password'),
+        //     "user_id" => "3",
+        //     "position_id" => "3",
+        //     "shift_id" => "1",
+        //     "location_id" => "1",
+        // ]);
 
         Location::create([
             "location_name" => "Jakarta Selatan",

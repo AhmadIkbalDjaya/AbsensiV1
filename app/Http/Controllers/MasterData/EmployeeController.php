@@ -23,8 +23,8 @@ class EmployeeController extends Controller
             'password' => 'required',
         ]);
         $validated["password"] = Hash::make($validated["password"]);
-        $user = User::where('id', $employee->user_id);
-        $user->update($validated);
+        // $user = User::where('id', $employee->user_id);
+        $employee->update($validated);
         return response()->base_response("", 200, "OK", "Password Berhasil Di Update");
     }
     /**
@@ -42,7 +42,7 @@ class EmployeeController extends Controller
         //         ])->get();
         $employee = Employee::all();
         $data = EmployeeResource::collection($employee->loadMissing([
-            "user:id,name,email",
+            // "user:id,name,email",
             "position:id,position_name", 
             "location:id,location_name",
             "shift:id,shift_name"
@@ -76,7 +76,7 @@ class EmployeeController extends Controller
         $validated = $request->validate([
             "nik" => "required|max:255|unique:employees",
             "name" => "required|max:255",
-            "email" => "required|email|max:255|unique:users",
+            "email" => "required|email|max:255|unique:employees",
             "password" => "required|min:8|max:255",
             "position_id" => "required|exists:positions,id",
             "shift_id" => "required|exists:shifts,id",
@@ -90,24 +90,24 @@ class EmployeeController extends Controller
             $validated["photo"] = "employess-photo/default.jpeg";
         }
         $validated["password"] = Hash::make($validated["password"]);
-        $user = [
-            'name' => $validated["name"],
-            'username' => $validated["name"],
-            'email' => $validated["email"],
-            'password' => $validated["password"],
-            'level' => "2",
-        ];
-        $user = User::create($user);
-        $employee = [
-            "nik" => $validated["nik"],
-            "user_id" => $user->id,
-            "position_id" => $validated["position_id"],
-            "shift_id" => $validated["shift_id"],
-            "location_id" => $validated["location_id"],
-            "photo" => $validated["photo"],
-        ];
+        // $user = [
+        //     'name' => $validated["name"],
+        //     'username' => $validated["name"],
+        //     'email' => $validated["email"],
+        //     'password' => $validated["password"],
+        //     'level' => "2",
+        // ];
+        // $user = User::create($user);
+        // $employee = [
+        //     "nik" => $validated["nik"],
+        //     "user_id" => $user->id,
+        //     "position_id" => $validated["position_id"],
+        //     "shift_id" => $validated["shift_id"],
+        //     "location_id" => $validated["location_id"],
+        //     "photo" => $validated["photo"],
+        // ];
         
-        $data = Employee::create($employee);
+        $data = Employee::create($validated);
         return response()->base_response($data, 201, "Created", "successfully saved data");
     }
 
@@ -120,7 +120,7 @@ class EmployeeController extends Controller
     public function show(Employee $employee)
     {
         $data = $employee->loadMissing([
-                "user:id,name,username,email",
+                // "user:id,name,username,email",
                 "position:id,position_name", 
                 "location:id,location_name",
                 "shift:id,shift_name",
@@ -138,7 +138,8 @@ class EmployeeController extends Controller
     {
         $data = [
             // "employee" => $employee->loadMissing(['user:id,name,username,email']),
-            "employee" => new EmployeeEditResource($employee->loadMissing(['user:id,name,email'])),
+            // "employee" => new EmployeeEditResource($employee->loadMissing(['user:id,name,email'])),
+            "employee" => new EmployeeEditResource($employee),
             "position" => Position::select('id', 'position_name')->get(),
             "shift" => Shift::select('id', 'shift_name')->get(),
             "location" => Location::select('id', 'location_name', 'address')->get(),
@@ -180,20 +181,20 @@ class EmployeeController extends Controller
         //     $validated["password"] = Hash::make($request["password"]);
         // }
 
-        $validatedEmployee = [
-            "nik" => $validated["nik"],
-            "user_id" => $employee->user->id,
-            "position_id" => $validated["position_id"],
-            "shift_id" => $validated["shift_id"],
-            "location_id" => $validated["location_id"],
-            "photo" => $validated["photo"],
-        ];
-        $validatedUser = [
-            'name' => $validated["name"],
-            'username' => $validated["name"],
-        ];
-        $employee->update($validatedEmployee);
-        User::where('id', $employee->user->id)->update($validatedUser);
+        // $validatedEmployee = [
+        //     "nik" => $validated["nik"],
+        //     "user_id" => $employee->user->id,
+        //     "position_id" => $validated["position_id"],
+        //     "shift_id" => $validated["shift_id"],
+        //     "location_id" => $validated["location_id"],
+        //     "photo" => $validated["photo"],
+        // ];
+        // $validatedUser = [
+        //     'name' => $validated["name"],
+        //     'username' => $validated["name"],
+        // ];
+        $employee->update($validated);
+        // User::where('id', $employee->user->id)->update($validatedUser);
         return response()->base_response($employee, 200, "OK", "Data Berhasil Di Update");
     }
 
@@ -205,8 +206,11 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
+        if($employee->photo != "employess-photo/default.jpeg"){
+            Storage::delete($employee->photo);
+        }
         $employee->delete();
-        User::where('id', $employee->user->id)->delete();
+        // User::where('id', $employee->user->id)->delete();
         return response()->base_response("", 200, "OK", "Data Berhasil Dihapus");
     }
 }

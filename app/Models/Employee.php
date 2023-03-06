@@ -25,4 +25,8 @@ class Employee extends Model
         return $this->belongsTo(Shift::class);
     }
 
+    public function cuty () {
+        return $this->hasOne(Cuty::class);
+    }
+
 }

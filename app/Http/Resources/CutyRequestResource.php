@@ -24,7 +24,7 @@ class CutyRequestResource extends JsonResource
         return [
             "id" => $this->id,
             "employee_id" => $this->employee_id,
-            "name" => $this->employee->user->name,
+            "name" => $this->employee->name,
             "cuty_start" => $this->cuty_start,
             "cuty_end" => $this->cuty_end,
             "date_work" => $this->date_work,
