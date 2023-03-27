@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CutyController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SwSiteController;
 use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\MasterData\ShiftController;
@@ -35,6 +36,13 @@ Route::post('/cutyAction/{cuty}', [CutyController::class, 'cutyAction']);
 
 Route::get('/presence', [PresenceController::class, 'showAllPresence']);
 Route::get('/employeePresence/{employee}', [PresenceController::class, 'employeePresence']);
+
+Route::controller(SwSiteController::class)->group(function () {
+    Route::get('/webSettings', 'webSettings');
+    Route::post('/updateWebSettings', 'updateWebSettings');
+    Route::get('/editProfile', "editProfile");
+    Route::post('/updateProfile', "updateProfile");
+});
 
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::middleware(['admin'])->group(function () {

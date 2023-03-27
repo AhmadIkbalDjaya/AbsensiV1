@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\Cuty;
 use App\Models\User;
 use App\Models\Shift;
+use App\Models\SwSite;
 use App\Models\Employee;
 use App\Models\Location;
 use App\Models\Position;
@@ -172,6 +173,20 @@ class DatabaseSeeder extends Seeder
             "level_name" => "Operator",
         ]);
 
+        SwSite::create([
+            "site_url" => "https://absensi.yuscorp.co.id",
+            "site_name" => "Absensi Yuscorp",
+            "site_company" => "PT Yuscorp",
+            "site_manager" => "Sauki",
+            "site_director" => "Sukri",
+            "site_phone" => "081241386171",
+            "site_address" => "Jl Kampung Melayu Kecil 5 no 24",
+            "site_description" => "Absensi Yuscorp",
+            "site_logo" => "whiteswlogowebpng.png",
+            "site_email" => "admin@gmail.com",
+            "site_email_domain" => "admin@gmail.com",
+        ]);
+        
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
