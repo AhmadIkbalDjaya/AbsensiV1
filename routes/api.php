@@ -7,6 +7,7 @@ use App\Http\Controllers\CutyController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SwSiteController;
 use App\Http\Controllers\PresenceController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\MasterData\ShiftController;
 use App\Http\Controllers\MasterData\EmployeeController;
@@ -43,6 +44,8 @@ Route::controller(SwSiteController::class)->group(function () {
     Route::get('/editProfile', "editProfile");
     Route::post('/updateProfile', "updateProfile");
 });
+
+Route::get('/dashboard', [DashboardController::class, "index"]);
 
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::middleware(['admin'])->group(function () {
