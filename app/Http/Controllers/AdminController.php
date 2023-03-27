@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\AdminResource;
@@ -16,6 +17,7 @@ class AdminController extends Controller
      */
     public function index()
     {
+        // dd(User::find("id", "1")->get());
         $data = AdminResource::collection(User::all());
         return response()->base_response($data);
     }
@@ -27,7 +29,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        //
+        return response()->base_response(UserLevel::all());
     }
 
     /**
@@ -43,7 +45,7 @@ class AdminController extends Controller
             "email" => "required|email|unique:users|max:255",
             "password" => "required|min:8|max:255",
             "fullname" => "required|max:255",
-            "level" => "required",
+            "user_level_id" => "required|exists:user_levels,id",
         ]);
         $validated["password"] = Hash::make($validated["password"]);
         $data = User::create($validated);
@@ -69,7 +71,11 @@ class AdminController extends Controller
      */
     public function edit(User $admin)
     {
-        //
+        $data = [
+            "admin" => new AdminResource($admin),
+            "user_level" => UserLevel::select("id", "level_name")->get(),
+        ];
+        return response()->base_response($data);
     }
 
     /**
@@ -81,15 +87,18 @@ class AdminController extends Controller
      */
     public function update(Request $request, User $admin)
     {
+        // dd($request->password);
         $validated = $request->validate([
             "fullname" => "required|max:255",
             "username" => "required|max:255|unique:users,username,$admin->id",
             "email" => "required|email|unique:users,email,$admin->id|max:255",
-            "password" => "",
-            "level" => "required",
+            "password" => "nullable|min:8",
+            "user_level_id" => "required|exists:user_levels,id",
         ]);
-        if($request->password){
+        if($request->password && $request->password != null){
             $validated["password"] = Hash::make($validated["password"]);
+        } else {
+            unset($validated["password"]);
         }
         $admin->update($validated);
         return response()->base_response($admin, 200, "OK", "Data Berhasil di Update");

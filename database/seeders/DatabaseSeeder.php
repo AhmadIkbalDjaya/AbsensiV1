@@ -10,6 +10,7 @@ use App\Models\Employee;
 use App\Models\Location;
 use App\Models\Position;
 use App\Models\Presence;
+use App\Models\UserLevel;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -26,7 +27,7 @@ class DatabaseSeeder extends Seeder
             "email" => "admin@gmail.com",
             "password" => bcrypt('admin123'),
             "fullname" => "Administrator",
-            "level" => 1,
+            "user_level_id" => 1,
         ]);
         // User::create([
         //     "name" => "sukri",
@@ -163,6 +164,14 @@ class DatabaseSeeder extends Seeder
             "latitude_longitude_in" => "-4.5585849,105.40680789999999",
             "latitude_longitude_out" => "-4.5585849,105.40680789999999",
         ]);
+
+        UserLevel::create([
+            "level_name" => "Administrator",
+        ]);
+        UserLevel::create([
+            "level_name" => "Operator",
+        ]);
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

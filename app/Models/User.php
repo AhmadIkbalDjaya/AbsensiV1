@@ -46,4 +46,7 @@ class User extends Authenticatable
     public function employee() {
         return $this->hasOne(Employee::class);
     }
+    public function user_level () {
+        return $this->belongsTo(UserLevel::class);
+    }
 }

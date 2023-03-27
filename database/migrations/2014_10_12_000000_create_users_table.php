@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\UserLevel;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -20,7 +21,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('fullname');
-            $table->integer('level');
+            // $table->integer('level');
+            $table->foreignIdFor(UserLevel::class);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
